@@ -1,7 +1,7 @@
 import json
 from filesystem.Filesystem import *
 from cryptography.fernet import Fernet
-
+import os, sys
 
 class FilesystemParser:
     def parse_json(self, filename) -> Filesystem:

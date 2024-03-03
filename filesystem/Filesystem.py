@@ -52,7 +52,7 @@ class Executable:
         match self.name[:-4]:
             case 'DecryptPass':
                 fs.locate_file('/Documents/passwords').decrypt_all(fs.get_key())
-                return 'Success'
+                return 'Successfully decrypted folder.'
             case s if s.startswith('Findings'):
                 n = int(s[8:])
                 if f'findings{n}.txt' not in self.parent.children:
@@ -60,7 +60,7 @@ class Executable:
                 del self.parent.children[f'findings{n}.txt']
                 fs.locate_file(f'/Documents/findings{n}').decrypt_all(fs.get_key())
                 del self.parent.children[self.name]
-                return 'Success'
+                return 'Successfully decrypted folder.'
             case s:
                 raise ValueError(f'Unrecognised executable: {s}')
 
@@ -195,8 +195,11 @@ class Filesystem:
     @staticmethod
     def __assist(args) -> str:
         """ :param args: args[0] 'please'"""
-        if len(args) == 0 or "please" not in args[0].lower():
+        if len(args) == 0:
             return "koopa: say pretty please!"
+        Filesystem.need_args(args, 1)
+        if "please" not in args[0]:
+            return "koopa: say please, please!"
         return """
         rd [textfile] -- read textfile
         assist please -- help manual
@@ -237,7 +240,7 @@ class Filesystem:
             return 'Source file not found'
         del src.parent.children[src.name]
         dst.children[src.name] = src
-        return 'Success'
+        return 'Successfully relocated.'
 
     def __sudo(self, _args) -> str:
         self.grant_perms(1)
