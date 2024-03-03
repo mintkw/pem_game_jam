@@ -33,8 +33,15 @@ class Shell:
 
 
     def enter_command(self):
+        command = ''
+        for i in range(self.first_active_line, self.current_line+1):
+            command += self.text[i]
+
+        print(command)
+
         # freeze the lines that were active
         self.text[self.first_active_line] = self.prompt + self.text[self.first_active_line]
+
 
         # placeholder- run command and get some output back
         output_text = "command not found command not found command not found command not found command not found\nenter something else"
