@@ -22,7 +22,30 @@ class TextFile:
         self.contents = contents
 
 
-File = Node | TextFile
+class Executable:
+    name: str
+    parent: Node
+    password: Optional[str]
+    func: Callable[[Node], str]
+
+    def __init__(self, name: str, parent: Node, password: Optional[str], func: Callable[[Node], str]):
+        self.name = name
+        self.parent = parent
+        self.password = password
+        self.func = func
+
+    def run(self, password: Optional[str], root: Node) -> str:
+        if self.password:
+            if self.password != password:
+                return f"Permission denied. Try running this file as ../{self.name} [password]"
+        return self.func(root)
+
+
+class RequiresMoreArgs(Exception):
+    pass
+
+
+File = Node | TextFile | Executable
 
 
 class Filesystem:
@@ -40,19 +63,23 @@ class Filesystem:
         :return: (new working directory, output)
         """
         (command_type, args) = self.__parse_command(command)
-        match command_type:
-            case Command.NOCOMMAND:
-                return self.__no_command(command_in=command.split()[0])
-            case Command.READ:
-                return self.__read(args)
-            case Command.ASSIST:
-                return self.__assist(args)
-            case Command.TRAVERSE:
-                return self.__traverse(args)
-            case Command.RELOCATE:
-                return self.__relocate(args)
-            case Command.SUDO:
-                return self.__sudo(args)
+        try:
+            match command_type:
+                case Command.NOCOMMAND:
+                    return self.__no_command(command_in=command.split()[0])
+                case Command.READ:
+                    return self.__read(args)
+                case Command.ASSIST:
+                    return self.__assist(args)
+                case Command.TRAVERSE:
+                    return self.__traverse(args)
+                case Command.RELOCATE:
+                    return self.__relocate(args)
+                case Command.SUDO:
+                    return self.__sudo(args)
+        except RequiresMoreArgs as e:
+            return e.args[0]
+
 
     @staticmethod
     def __parse_command(command: str) -> Tuple[Command, List[str]]:
@@ -69,13 +96,33 @@ class Filesystem:
     @staticmethod
     def need_args(args, n):
         if len(args) != n:
-            return 'Wrong number of arguments'
+            raise RequiresMoreArgs(f"Wrong number of arguments. Requires {n} arguments.")
 
     def __read(self, args) -> str:
         """ :param args: args[0] filename.txt """
+        self.need_args(args, 1)
         filename = args[0]
         _, current_node = self.__current_working_directory
-        return current_node.children[filename].contents
+        file = current_node.children.get(filename)
+        if not file:
+            return f"koopa: no such filename {filename}."
+        return file.contents
+
+    def __run(self, args) -> str:
+        """:param args: args[0] password if any"""
+        if len(args) < 1:
+            return self.need_args(args, 1)
+        filename = args[0]
+        _, current_node = self.__current_working_directory
+        executable = current_node.children.get(filename)
+        if not executable:
+            return f"koopa: no such executable {executable}"
+        if not args[1:]:
+            return executable.run(None, self.__root)
+        else:
+            self.need_args(args, 2)
+            return executable.run(args[1], self.__root)
+
 
     @staticmethod
     def __assist(args) -> str:
