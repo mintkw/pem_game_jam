@@ -35,15 +35,16 @@
         "content": "they've sentenced me to death by firing squad. im chucking this minicomp in the river.... i just wanted to write a good dissertation, how did i let this happen... goodbye phone, ill miss you"
       }
     },
-    "field notes": {
-      "03_03_2056": "need to finish my email to the professor. i meant to change permissions from _ to _ on my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. ",
-      "dd_mm_1917": "starting to think the countryside really isn't for me. i spent a lot of time watching cows plod around and soaking in the smell of dung and hay. can't exactly say it wasn't instructive but i sure as hell will be glad to get my own laptop back and stop using this antique brick of a computer. i think i might need to go further back than 1918. came up with lots of good strategies while playing ww simulator that i want to test out. i mean ill be careful, wont change the past or anything like that... ha. ill be sure to hold back my best strategies so we still lose if need be.",
-      "dd_mm_1916": {
+    "field_notes": {
+      "untitled.txt": "recently realised that it'll be helpful to future biographers if i keep a more structured journal",
+      "enc_03_03_2056": "need to finish my email to the professor. i meant to change permissions from _ to _ on my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. ",
+      "enc_dd_mm_1917": "starting to think the countryside really isn't for me. i spent a lot of time watching cows plod around and soaking in the smell of dung and hay. can't exactly say it wasn't instructive but i sure as hell will be glad to get my own laptop back and stop using this antique brick of a computer. i think i might need to go further back than 1918. came up with lots of good strategies while playing ww simulator that i want to test out. i mean ill be careful, wont change the past or anything like that... ha. ill be sure to hold back my best strategies so we still lose if need be.",
+      "enc_dd_mm_1916": {
         "permission": 1,
         "content": "placeholder"
       }
     },
-    "email drafts": {
+    "email_drafts": {
       "email_prof_ver_1.txt": "Dear Professor,\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation. Preparing for time travel isn't something you can wrap in two or three hours but I wouldn't expect ",
       "email_prof_ver_2.txt": "Dear Professor,\nJust following up on my last email to see if you could submit the required health and safety risk assessment form by Tuesday. I've attached the form here and partially filled it out for your convenience. Looking forward to hearing back soon.",
       "email_greataunt.txt": "Dear Great-Aunt Florence,\nHow are you? I don't think I'll be at home this Easter, sorry I can't catsit for you again. I can try to look for Great-Uncle Willie but I don't think I'll be able to find him. What battle did you say he fought in again?",
@@ -57,6 +58,7 @@
     "DecryptPass.exe": "awesome",
     "Findings14.exe": "findings123",
     "Findings15.exe": "newfindings",
-    "Findings16.exe": ""
+    "Findings16.exe": "",
+    "field_notes.exe": ""
   }
 }
