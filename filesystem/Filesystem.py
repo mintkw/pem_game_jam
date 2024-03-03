@@ -12,7 +12,13 @@ class TextFile:
     contents: str
 
 
+File = Node | TextFile
+
+
 class Filesystem:
+    __root: Node
+    __current_working_directory: Node
+
     def __init__(self):
         self.__root = Node(None, {})
         self.__current_working_directory = self.__root
@@ -43,16 +49,29 @@ class Filesystem:
     def __no_command(self, command_in) -> str:
         return f"koopa: command not found: {command_in}"
 
+    @staticmethod
+    def need_args(args, n):
+        if len(args) != n:
+            return 'Wrong number of arguments'
+
     def __read(self, args) -> str:
         pass
 
     def __assist(self, args) -> str:
-        pass
+        return "skill issue (deleting all your files, please wait...)"
 
-    def __traverse(self, args) -> str:
-        pass
+    def traverse(self, args) -> str:
+        self.need_args(args, 1)
+        new_cwd = self.locate_file(args[0])
+        if new_cwd is None:
+            return 'File not found'
+        if isinstance(new_cwd, Node):
+            self.__current_working_directory = new_cwd
+        else:
+            return "Can only traverse to a directory"
 
     def __relocate(self, args) -> str:
+        self.need_args(args, 2)
         pass
 
     def __sudo(self, args) -> str:
@@ -62,7 +81,7 @@ class Filesystem:
     def validate_file_name(name: str) -> bool:
         return name not in ['', '.', '..'] and '/' not in name
 
-    def locate_file(self, filename: str, cwd: Node = None) -> Optional[Node]:
+    def locate_file(self, filename: str, cwd: Node = None) -> Optional[File]:
         if cwd is None:
             cwd = self.__current_working_directory
         if filename == '':
