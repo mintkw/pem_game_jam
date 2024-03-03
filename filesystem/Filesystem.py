@@ -56,7 +56,7 @@ class Executable:
             case s if s.startswith('Findings'):
                 n = int(s[8:])
                 if f'findings{n}.txt' not in self.parent.children:
-                    return 'Findings: you suck'
+                    return 'Missing required dependency. Try moving the dependency to this file.'
                 del self.parent.children[f'findings{n}.txt']
                 fs.locate_file(f'/Documents/findings{n}').decrypt_all()
                 return 'Success'

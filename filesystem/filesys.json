@@ -8,7 +8,7 @@
         "enc_findings.txt": "findings123"
       },
     "findings14" : {
-      "findings14.txt": "rmmber: need to move (command: rlc) this file to the same folder as exec",
+      "findings14.txt": "rmmber: need to move (command: rlc <dest> <filename>) this file to the same folder as exec",
       "enc_findingresults14.txt": "Life in the countryside was serene until the outbreak of WWI. I resided with the Thompson family, farmers living amid picturesque fields. Their son, James, enlisted, leaving us anxious. Mrs. Thompson awaited news by the window, letters from James offering glimpses of the front lines' horrors. As casualties mounted, the toll on our community deepened. Eventually, news arrived of James' injury, a bittersweet relief. Despite the devastation, the Thompsons' resilience and the enduring strength of family shone through, reminding us that even amidst war's chaos, love prevails.\n\nBy the end of 1914, the toll of WWI was already staggering, with over 1.7 million casualties. These statistics, though impersonal, represented the shattered lives and families across our nation. Each number was a story of sacrifice and loss, a reminder of the harsh reality of war that touched even our quiet countryside.",
       "personal14": {
         "enc_personalnotes14.txt": "so i'm living in the countryside, because the uni has apparently designated this place a safe zone. which is ridiculous because there's NO ACTION HERE. how am i supposed to destroy Matthew Clark in Quadpos if i cant get the REAL ACTION?????????? i need to talk to the soldiers.",
@@ -35,25 +35,18 @@
       }
     },
     "field_notes": {
+      "field_notes_pass.txt": "AB",
       "untitled.txt": "recently realised that it'll be helpful to future biographers if i keep a more structured journal",
-      "enc_X3_03_2056.txt": "need to finish my email to the professor. i meant to lower permissions on all my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. anyway i cant be bothered to change permissions on all but a few.",
-      "enc_11_04_1916.txt": {
-        "permission": 1,
-        "content": "placeholder"
-      },
-      "enc_12_04_1916.txt": {
-        "permission": 1,
-        "content": "placeholder"
-      },
-      "enc_13_04_1916.txt": {
-        "permission": 1,
-        "content": "placeholder"
-      }
+      "03_A3_2056.txt": "need to finish my email to the professor. i meant to lower permissions on all my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. anyway i cant be bothered to change permissions on all but a few.",
+      "11_04_B916.txt": "placeholder",
+      "enc_05_10__1917": "starting to think the countryside really isn't for me. i spent a lot of time watching cows plod around and soaking in the smell of dung and hay. can't exactly say it wasn't instructive but i sure as hell will be glad to get my own laptop back and stop using this antique brick of a computer. i think i might need to go further back than 1918. came up with lots of good strategies while playing ww simulator that i want to test out. i mean ill be careful, wont change the past or anything like that... ha. ill be sure to hold back my best strategies so we still lose if need be.",
+      "enc_12_04_1916.txt": "placeholder",
+      "enc_13_04_1916.txt": "placeholder"
     },
     "enc_05_10_1917.txt": "placeholder- note this file should be put in field notes so the password appears in the file names or sth",
     "email_drafts": {
-      "email_prof_ver_1.txt": "Dear Professor,\n\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation. Preparing for time travel isn't something you can wrap in two or three hours but I wouldn't expect ",
-      "email_prof_ver_2.txt": "Dear Professor,\n\nJust following up on my last email to see if you could submit the required health and safety risk assessment form by Tuesday. I've attached the form here and partially filled it out for your convenience. Just needs your signature and we're good to go.\n\nLooking forward to hearing back promptly.",
+      "email_prof_ver1.txt": "Dear Professor,\n\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation. Preparing for time travel isn't something you can wrap in two or three hours but I wouldn't expect ",
+      "email_prof_ver2.txt": "Dear Professor,\n\nJust following up on my last email to see if you could submit the required health and safety risk assessment form by Tuesday. I've attached the form here and partially filled it out for your convenience. Just needs your signature and we're good to go.\n\nLooking forward to hearing back promptly.",
       "email_greataunt.txt": "Dear Great-Aunt Florence,\n\nHow are you? I don't think I'll be at home this Easter, sorry I can't catsit for you again. I can try to look for Great-Uncle Willie but I don't think I'll be able to find him. What battle did you say he fought in again?",
       "email_prof_updated.txt": {
         "permission": 1,
