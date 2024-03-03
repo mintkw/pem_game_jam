@@ -16,7 +16,7 @@ def main():
 
     # initialise a shell object
     prompt = "(base) user@device ~ % "
-    shell = ShellContent.Shell(prompt, font, WIDTH, screen, color)
+    shell = ShellContent.Shell(prompt, font, WIDTH, HEIGHT, screen, color)
 
     done = False
 
