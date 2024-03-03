@@ -2,7 +2,7 @@ import pygame as pg
 
 
 class Shell:
-    def __init__(self, prompt: str, font: pg.font, width: int, screen, color):
+    def __init__(self, prompt: str, font: pg.font, width: int, height: int, screen, color):
         self.text = ['']  # list of lines displayed in the shell
         self.font = font
         self.width = width
@@ -11,12 +11,26 @@ class Shell:
         self.prompt = prompt
         self.line_height = font.size('a')[1] + 1  # base each line's height on the height of the font
         self.max_line_length = width // font.size('a')[0]  # max length that a line is allowed to be
+        self.max_lines = height // self.line_height
         self.input_boxes = [pg.Rect(0, 0, width, self.line_height)]  # going to draw one rect per line.
         self.screen = screen
         self.color = color
 
     def add_input_box(self):
         self.input_boxes.append(pg.Rect(0, self.line_height * self.current_line, self.width, self.line_height))
+
+    def start_new_line(self):
+        # Shifts every line so the latest line is always at the bottom of the window.
+        if self.current_line >= self.max_lines - 1:
+            for i in range(self.max_lines-1):
+                self.text[i] = self.text[i+1]
+            self.text[-1] = ''
+            self.first_active_line -= 1
+
+        else:
+            self.current_line += 1
+            self.text.append('')
+
 
     def enter_command(self):
         # freeze the lines that were active
@@ -28,10 +42,9 @@ class Shell:
         self.output_text(output_text)
 
         # start new line
-        self.current_line += 1
+        self.start_new_line()
 
         self.add_input_box()
-        self.text.append('')
 
         # update line
         self.first_active_line = self.current_line
@@ -64,9 +77,8 @@ class Shell:
             max_input_length = self.max_line_length
 
         if len(self.text[self.current_line]) >= max_input_length - 1:
-            self.current_line += 1
+            self.start_new_line()
             self.add_input_box()
-            self.text.append('')
 
     def render(self):
         self.screen.fill((30, 30, 30))
@@ -106,7 +118,6 @@ class Shell:
         text = self.split_on_newline_and_wrap(text)
 
         for line in text:
-            self.current_line += 1
-            self.text.append(line)
+            self.start_new_line()
+            self.text[-1] = line
             self.add_input_box()
-
