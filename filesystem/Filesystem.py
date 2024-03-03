@@ -253,7 +253,7 @@ class Filesystem:
         if cwd is None:
             _, cwd = self.__current_working_directory
         if filename == '':
-            raise ValueError('Empty filename')
+            return cwd
         slash = filename.find('/')
         if slash == -1:
             slash = len(filename)

@@ -50,6 +50,7 @@ class Shell:
 
         output_text = self.filesystem.call_command(command)
         self.prev_command = command
+        self.prev_selected = False
         self.prompt = f"(koopa) larrypig@larrypig {self.filesystem.cwd()}/ $ "
 
         self.output_text(output_text)
