@@ -11,8 +11,8 @@ def main():
     clock = pg.time.Clock()
     color = pg.Color('white')
 
-    pg.key.set_repeat(500, 100)  # set keys to repeatedly send pygame.KEYDOWN events
-    # ... after the first 500ms and then every 100 ms.
+    pg.key.set_repeat(500, 75)  # set keys to repeatedly send pygame.KEYDOWN events
+    # ... after the first 500ms and then once every 75 ms.
 
     # initialise a shell object
     prompt = "(base) user@device ~ % "
