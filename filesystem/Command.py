@@ -8,6 +8,7 @@ class Command(Enum):
     RELOCATE = "rlc"
     SUDO = "iamgod"
     NOCOMMAND = "none"
+    SHOWALL = "shwall"
 
     def __str__(self):
         return f'{self.value}'

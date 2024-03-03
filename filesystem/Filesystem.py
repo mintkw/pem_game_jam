@@ -121,6 +121,8 @@ class Filesystem:
                     return self.__relocate(args)
                 case Command.SUDO:
                     return self.__sudo(args)
+                case Command.SHOWALL:
+                    return self.__showall()
         except RequiresMoreArgs as e:
             return e.args[0]
 
@@ -157,6 +159,13 @@ class Filesystem:
             return f"koopa: permission denied."
         return file.contents
 
+    def __showall(self):
+        currnode = self.__current_working_directory[1]
+        children_ls = []
+        for child in currnode.children:
+            children_ls.append(child)
+        return "  ".join(children_ls)
+
     def __run(self, args) -> str:
         """:param args: args[0] password if any"""
         if len(args) < 1:
@@ -181,6 +190,7 @@ class Filesystem:
         rd [textfile] -- read textfile
         assist please -- help manual
         trv [directory] -- traverse the file system
+        shwall -- show the contents of the current directory
         """
 
     @classmethod
