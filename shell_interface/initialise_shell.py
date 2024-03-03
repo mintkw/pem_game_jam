@@ -15,7 +15,7 @@ def main():
     # ... after the first 500ms and then once every 75 ms.
 
     # initialise a shell object
-    prompt = "(base) user@device ~ % "
+    prompt = "(koopa) larrypig@larrypig / $ "
     shell = ShellContent.Shell(prompt, font, WIDTH, HEIGHT, screen, color)
 
     done = False
@@ -33,9 +33,8 @@ def main():
                     shell.backspace()
 
                 # shortcuts
-                # elif event.key == pg.K_u:
-                #     if event.mod & pg.KMOD_CTRL:
-                #         shell.clear_current_command()
+                elif event.key == pg.K_u and (event.mod & pg.KMOD_CTRL):
+                    shell.clear_current_command()
 
                 else:
                     shell.enter_character(event.unicode)
