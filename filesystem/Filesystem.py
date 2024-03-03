@@ -23,7 +23,7 @@ class Filesystem:
             case Command.NOCOMMAND:
                 return self.__cwd(), self.__no_command(command_in=command.split()[0])
             case Command.READ:
-                return self.__read(args)
+                return self.__cwd(), self.__read(args)
             case Command.ASSIST:
                 return self.__assist(args)
             case Command.TRAVERSE:
@@ -44,7 +44,10 @@ class Filesystem:
         return f"koopa: command not found: {command_in}"
 
     def __read(self, args) -> str:
-        pass
+        """ :param args: args[0] filename.txt """
+        filename = args[0]
+        _, current_node = self.__current_working_directory
+        return current_node.children[filename].contents
 
     def __assist(self, args) -> str:
         pass
