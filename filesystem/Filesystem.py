@@ -15,13 +15,13 @@ class TextFile:
 class Filesystem:
     def __init__(self):
         self.__root = Node(None, {})
-        self.__current_working_directory = self.__root
+        self.__current_working_directory = ("/", self.__root)
 
-    def call_command(self, command: str) -> str:
+    def call_command(self, command: str) -> (str, str):
         (command_type, args) = self.__parse_command(command)
         match command_type:
             case Command.NOCOMMAND:
-                return self.__no_command(command_in=command.split()[0])
+                return self.__cwd(), self.__no_command(command_in=command.split()[0])
             case Command.READ:
                 return self.__read(args)
             case Command.ASSIST:
@@ -62,9 +62,12 @@ class Filesystem:
     def validate_file_name(name: str) -> bool:
         return name not in ['', '.', '..'] and '/' not in name
 
+    def __cwd(self) -> str:
+        return self.__current_working_directory[0]
+
     def locate_file(self, filename: str, cwd: Node = None) -> Optional[Node]:
         if cwd is None:
-            cwd = self.__current_working_directory
+            _, cwd = self.__current_working_directory
         if filename == '':
             raise ValueError('Empty filename')
         slash = filename.find('/')
