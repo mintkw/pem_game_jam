@@ -212,7 +212,7 @@ class Filesystem:
         src = self.locate_file(args[1])
         if src is None:
             return 'Source file not found'
-        del src.parent[src.name]
+        del src.parent.children[src.name]
         dst.children[src.name] = src
         return 'Success'
 
