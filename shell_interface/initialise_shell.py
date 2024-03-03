@@ -33,9 +33,9 @@ def main():
                     shell.backspace()
 
                 # shortcuts
-                elif event.key == pg.K_u:
-                    if event.mod & pg.KMOD_CTRL:
-                        shell.clear_current_command()
+                # elif event.key == pg.K_u:
+                #     if event.mod & pg.KMOD_CTRL:
+                #         shell.clear_current_command()
 
                 else:
                     shell.enter_character(event.unicode)
