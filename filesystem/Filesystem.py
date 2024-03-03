@@ -244,7 +244,9 @@ class Filesystem:
             case '':
                 first = self.__root
             case name:
-                first = name
+                first = cwd.children.get(name)
+                if first is None:
+                    return None
         if slash == len(filename):
             return first
         else:
