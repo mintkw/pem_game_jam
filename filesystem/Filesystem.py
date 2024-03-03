@@ -12,10 +12,16 @@ class TextFile:
     contents: str
 
 
+File = Node | TextFile
+
+
 class Filesystem:
+    __root: Node
+    __current_working_directory: (str, Node)
+
     def __init__(self):
         self.__root = Node(None, {})
-        self.__current_working_directory = ("/", self.__root)
+        self.__current_working_directory = ("", self.__root)
 
     def call_command(self, command: str) -> (str, str):
         """
@@ -47,6 +53,11 @@ class Filesystem:
     def __no_command(self, command_in) -> str:
         return f"koopa: command not found: {command_in}"
 
+    @staticmethod
+    def need_args(args, n):
+        if len(args) != n:
+            return 'Wrong number of arguments'
+
     def __read(self, args) -> str:
         """ :param args: args[0] filename.txt """
         filename = args[0]
@@ -65,10 +76,18 @@ class Filesystem:
         god [cmd] -- run a command in god mode
         """
 
-    def __traverse(self, args) -> str:
-        pass
+    def traverse(self, args) -> str:
+        self.need_args(args, 1)
+        new_cwd = self.locate_file(args[0])
+        if new_cwd is None:
+            return 'File not found'
+        if isinstance(new_cwd, Node):
+            self.__current_working_directory = new_cwd
+        else:
+            return "Can only traverse to a directory"
 
     def __relocate(self, args) -> str:
+        self.need_args(args, 2)
         pass
 
     def __god(self, args) -> str:
@@ -81,7 +100,7 @@ class Filesystem:
     def __cwd(self) -> str:
         return self.__current_working_directory[0]
 
-    def locate_file(self, filename: str, cwd: Node = None) -> Optional[Node]:
+    def locate_file(self, filename: str, cwd: Node = None) -> Optional[File]:
         if cwd is None:
             _, cwd = self.__current_working_directory
         if filename == '':
