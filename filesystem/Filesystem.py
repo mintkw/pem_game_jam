@@ -3,7 +3,8 @@ from filesystem.Command import Command
 
 
 class Node:
-    def __init__(self, parent, children):
+    def __init__(self, name, parent, children):
+        self.name = name
         self.parent = parent
         self.children = children
 
@@ -20,10 +21,10 @@ class Filesystem:
     __current_working_directory: (str, Node)
 
     def __init__(self):
-        self.__root = Node(None, {})
+        self.__root = Node('', None, {})
         self.__current_working_directory = ("", self.__root)
 
-    def call_command(self, command: str) -> (str, str):
+    def call_command(self, command: str) -> str:
         """
         :param command:
         :return: (new working directory, output)
@@ -31,17 +32,17 @@ class Filesystem:
         (command_type, args) = self.__parse_command(command)
         match command_type:
             case Command.NOCOMMAND:
-                return self.__cwd(), self.__no_command(command_in=command.split()[0])
+                return self.__no_command(command_in=command.split()[0])
             case Command.READ:
-                return self.__cwd(), self.__read(args)
+                return self.__read(args)
             case Command.ASSIST:
-                return self.__cwd(), self.__assist(args)
+                return self.__assist(args)
             case Command.TRAVERSE:
-                return self.__cwd(), self.__traverse(args)
+                return self.__traverse(args)
             case Command.RELOCATE:
-                return self.__cwd(), self.__relocate(args)
+                return self.__relocate(args)
             case Command.SUDO:
-                return self.__cwd(), self.__sudo(args)
+                return self.__sudo(args)
 
     def __parse_command(self, command: str) -> Tuple[Command, List[str]]:
         cmds = command.split()
@@ -76,28 +77,46 @@ class Filesystem:
         god [cmd] -- run a command in god mode
         """
 
-    def traverse(self, args) -> str:
+    @classmethod
+    def compute_cwd_str(cls, cwd: Node) -> str:
+        if cwd.parent is None:
+            return ''
+        return cls.compute_cwd_str(cwd.parent) + '/' + cwd.name
+
+    def __traverse(self, args) -> str:
+        """ :param args: args[0] new working directory """
         self.need_args(args, 1)
         new_cwd = self.locate_file(args[0])
         if new_cwd is None:
             return 'File not found'
         if isinstance(new_cwd, Node):
-            self.__current_working_directory = new_cwd
+            self.__current_working_directory = (Filesystem.compute_cwd_str(new_cwd), new_cwd)
         else:
             return "Can only traverse to a directory"
 
     def __relocate(self, args) -> str:
+        """ :param args: args[0] dst args[1] src """
         self.need_args(args, 2)
-        pass
+        dst = self.locate_file(args[0])
+        if dst is None:
+            return 'Destination directory not found'
+        if not isinstance(dst, Node):
+            return 'Destination must be a directory'
+        src = self.locate_file(args[1])
+        if src is None:
+            return 'Source file not found'
+        del src.parent[src.name]
+        dst.children[src.name] = src
+        return 'Success'
 
-    def __god(self, args) -> str:
-        pass
+    def __sudo(self, args) -> str:
+        return 'Denied (error code: MERE_MORTAL)'
 
     @staticmethod
     def validate_file_name(name: str) -> bool:
         return name not in ['', '.', '..'] and '/' not in name
 
-    def __cwd(self) -> str:
+    def cwd(self) -> str:
         return self.__current_working_directory[0]
 
     def locate_file(self, filename: str, cwd: Node = None) -> Optional[File]:
