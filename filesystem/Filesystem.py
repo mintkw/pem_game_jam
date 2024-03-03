@@ -4,13 +4,18 @@ from filesystem.Command import Command
 
 class Node:
     def __init__(self, parent, children):
-        self.__parent = parent
-        self.__children = children
+        self.parent = parent
+        self.children = children
+
+
+class TextFile:
+    contents: str
+
 
 class Filesystem:
     def __init__(self):
-        self.__root = Node(None, )
-        self.__current_working_directory =
+        self.__root = Node(None, {})
+        self.__current_working_directory = self.__root
 
     def call_command(self, command: str) -> str:
         (command_type, args) = self.__parse_command(command)
@@ -52,3 +57,29 @@ class Filesystem:
 
     def __sudo(self, args) -> str:
         pass
+
+    @staticmethod
+    def validate_file_name(name: str) -> bool:
+        return name not in ['', '.', '..'] and '/' not in name
+
+    def locate_file(self, filename: str, cwd: Node = None) -> Optional[Node]:
+        if cwd is None:
+            cwd = self.__current_working_directory
+        if filename == '':
+            raise ValueError('Empty filename')
+        slash = filename.find('/')
+        if slash == -1:
+            slash = len(filename)
+        match filename[:slash]:
+            case '..':
+                first = cwd
+            case '.':
+                first = cwd.parent
+            case '':
+                first = self.__root
+            case name:
+                first = name
+        if slash == len(filename):
+            return first
+        else:
+            return self.locate_file(filename[1 + slash:], first)
