@@ -1,16 +1,26 @@
 {
+  "todo.txt": "write up dissertation, call professor, visit 1942, steal british beer, update encryption",
+  "README.txt": "THIS LAPTOP IS PROPERTY OF LARRY PIG, CLASS OF PEM-2056. if you're reading this text file, GET OFF MY LAPTOP!!! I can't have some no name losers stealing my academic work before it's even published. travel to 1914 yourself, you thief!",
   "Documents": {
-    "folder1": {
-      "file1.txt": "Hello here is some really cool text, I think you should check it out!",
-      "subfolder1": {
-        "file2.txt": "yes i am file2",
-        "file3.txt": "yes i am file3",
-        "exec.exe": "funname"
-      }
+      "DISCLAIMER.txt": "WARNING: University given laptop. Students must not use this laptop for recreational purposes. This laptop is the property of the Pembroke History Faculty. ",
+      "passwords": {
+        "pass_decrypt.txt": "my mother dropped me on the heaad as a child. as a result, i have chronic memory loss. this passwword text filee is for mysself, if yoou're not larry pig of class 2056 get off my commputer before i expose you for acadeemic dishonesty",
+        "enc_findings.txt": "findings123, rmmber: need to move (rlc) findings0.txt to same folder as exec",
+        "enc_prefixperms.txt": "admin"
+      },
+    "findings" : {
+      "findings0.txt": "text file to trigger findings for findings.exe",
+      "enc_findingresults0.txt": ""
     }
   },
-  "Applications": {},
+  "Applications": {
+    "DecryptPass.exe": "awesome",
+    "Findings.exe": "findings123"
+  },
   "Pictures": {},
   "Downloads": {},
-  "enc_moose": "good moose"
+  "enc_moose": {
+    "permission": 1,
+    "content": ""
+  }
 }

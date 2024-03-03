@@ -110,7 +110,7 @@ class Filesystem:
 
     @staticmethod
     def __no_command(command_in) -> str:
-        return f"koopa: command not found: {command_in}"
+        return f"koopa: command not found: {command_in}. Try running `assist please`."
 
     @staticmethod
     def need_args(args, n):
