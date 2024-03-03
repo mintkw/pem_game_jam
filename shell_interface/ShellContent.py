@@ -15,10 +15,6 @@ class Shell:
         self.screen = screen
         self.color = color
 
-        self.key_to_operation = {
-            pg.K_BACKSPACE: self.backspace
-        }
-
     def enter_command(self):
         # freeze the lines that were active
         self.text[self.first_active_line] = self.prompt + self.text[self.first_active_line]
