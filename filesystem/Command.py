@@ -6,7 +6,7 @@ class Command(Enum):
     ASSIST = "assist"
     TRAVERSE = "trv"
     RELOCATE = "rlc"
-    SUDO = "god"
+    SUDO = "iamgod"
     NOCOMMAND = "none"
 
     def __str__(self):

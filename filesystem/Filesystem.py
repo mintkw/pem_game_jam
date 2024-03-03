@@ -168,8 +168,6 @@ class Filesystem:
         rd [textfile] -- read textfile
         assist please -- help manual
         trv [directory] -- traverse the file system
-        rlc [filename] [new_directory] -- move file to new directory
-        god [cmd] -- run a command in god mode
         """
 
     @classmethod
@@ -204,9 +202,9 @@ class Filesystem:
         dst.children[src.name] = src
         return 'Success'
 
-    @staticmethod
-    def __sudo(_args) -> str:
-        return 'Denied (error code: MERE_MORTAL)'
+    def __sudo(self, _args) -> str:
+        self.__perms = 1
+        return f"Permissions given. Permission level now {self.__perms}."
 
     @staticmethod
     def validate_file_name(name: str) -> bool:
