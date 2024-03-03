@@ -19,6 +19,8 @@ class FilesystemParser:
             return TextFile(name, parent, json_node, 0)
         elif isinstance(json_node, dict):
             if json_node.keys() == {'permission', 'content'}:
+                if name.startswith('enc_'):
+                    json_node['content'] = cipher_suite.encrypt(json_node['content'].encode()).decode()
                 return TextFile(name, parent, json_node['content'], json_node['permission'])
             node = Node(name, parent, {})
             for child_name, child in json_node.items():
