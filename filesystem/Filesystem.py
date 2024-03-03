@@ -197,6 +197,7 @@ class Filesystem:
             return 'File not found'
         if isinstance(new_cwd, Node):
             self.__current_working_directory = (Filesystem.compute_cwd_str(new_cwd), new_cwd)
+            return ''
         else:
             return "Can only traverse to a directory"
 
