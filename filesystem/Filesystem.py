@@ -217,7 +217,7 @@ class Filesystem:
         return 'Success'
 
     def __sudo(self, _args) -> str:
-        self.__perms = 1
+        self.grant_perms(1)
         return f"Permissions given. Permission level now {self.__perms}."
 
     @staticmethod
