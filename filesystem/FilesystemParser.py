@@ -12,10 +12,14 @@ class FilesystemParser:
 
     def __file_from_json(self, cipher_suite, parent, name, json_node) -> File:
         if isinstance(json_node, str):
+            if name.endswith('.exe'):
+                return Executable(name, parent, None if json_node == '' else json_node)
             if name.startswith('enc_'):
                 json_node = cipher_suite.encrypt(json_node.encode()).decode()
-            return TextFile(name, parent, json_node)
+            return TextFile(name, parent, json_node, 0)
         elif isinstance(json_node, dict):
+            if json_node.keys() == {'permission', 'content'}:
+                return TextFile(name, parent, json_node['content'], json_node['permission'])
             node = Node(name, parent, {})
             for child_name, child in json_node.items():
                 node.children[child_name] = self.__file_from_json(cipher_suite, node, child_name, child)
