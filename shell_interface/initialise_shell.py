@@ -2,7 +2,7 @@ import pygame as pg
 from shell_interface import ShellContent
 
 
-def main():
+def shell_main():
     WIDTH = 800
     HEIGHT = 600
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -57,7 +57,7 @@ def main():
         clock.tick(60)
 
 
-if __name__ == '__main__':
+def shellmain2():
     pg.init()
-    main()
+    shell_main()
     pg.quit()
