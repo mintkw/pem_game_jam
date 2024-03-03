@@ -42,7 +42,7 @@ class Shell:
         self.text[self.first_active_line] = self.prompt + self.text[self.first_active_line]
 
         output_text = self.filesystem.call_command(command)
-        self.prompt = f"(koopa) larrypig@larrypig {self.filesystem.cwd()} $ "
+        self.prompt = f"(koopa) larrypig@larrypig {self.filesystem.cwd()}/ $ "
 
         self.output_text(output_text)
 
