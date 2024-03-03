@@ -16,17 +16,17 @@ class Filesystem:
         (command_type, args) = self.__parse_command(command)
         match command_type:
             case Command.NOCOMMAND:
-                pass
+                return self.__no_command(command_in=command.split()[0])
             case Command.READ:
-                pass
+                return self.__read(args)
             case Command.ASSIST:
-                pass
+                return self.__assist(args)
             case Command.TRAVERSE:
-                pass
+                return self.__traverse(args)
             case Command.RELOCATE:
-                pass
+                return self.__relocate(args)
             case Command.SUDO:
-                pass
+                return self.__sudo(args)
 
     def __parse_command(self, command: str) -> Tuple[Command, List[str]]:
         cmds = command.split()
