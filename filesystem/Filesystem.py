@@ -50,14 +50,16 @@ class Executable:
         if self.password is not None and self.password != password:
             return f"Permission denied. Try running this file as ../{self.name} [password]"
         match self.name[:-4]:
-            case 'Decrypt':
-                fs.locate_file('/Documents/passwords').decrypt_all()
+            case 'DecryptPass':
+                fs.locate_file('/Documents/passwords').decrypt_all(fs.get_key())
+                return 'Success'
             case s if s.startswith('Findings'):
                 n = int(s[8:])
                 if f'findings{n}.txt' not in self.parent.children:
                     return 'Findings: you suck'
                 del self.parent.children[f'findings{n}.txt']
                 fs.locate_file(f'/Documents/findings{n}').decrypt_all()
+                return 'Success'
             case s:
                 raise ValueError(f'Unrecognised executable: {s}')
 
@@ -122,7 +124,7 @@ class Filesystem:
                 case Command.SUDO:
                     return self.__sudo(args)
                 case Command.SHOWALL:
-                    return self.__showall()
+                    return self.__showall(args)
         except RequiresMoreArgs as e:
             return e.args[0]
 
@@ -159,27 +161,35 @@ class Filesystem:
             return f"koopa: permission denied."
         return file.contents
 
-    def __showall(self):
-        currnode = self.__current_working_directory[1]
+    def __showall(self, args):
+        if len(args) == 0:
+            currnode = self.__current_working_directory[1]
+        else:
+            self.need_args(args, 1)
+            currnode = self.locate_file(args[0])
+            if not currnode:
+                return f'koopa: file not found {args[0]}.'
+            if not isinstance(currnode, Node):
+                return f'koopa: not a directory.'
         children_ls = []
         for child in currnode.children:
             children_ls.append(child)
         return "  ".join(children_ls)
 
-    def __run(self, args) -> str:
-        """:param args: args[0] password if any"""
-        if len(args) < 1:
-            return self.need_args(args, 1)
-        filename = args[0]
-        _, current_node = self.__current_working_directory
-        executable = current_node.children.get(filename)
-        if not executable:
-            return f"koopa: no such executable {executable}"
-        if not args[1:]:
-            return executable.run(None, self.__root)
-        else:
-            self.need_args(args, 2)
-            return executable.run(args[1], self.__root)
+    # def __run(self, args) -> str:
+    #     """:param args: args[0] password if any"""
+    #     if len(args) > 1:
+    #         self.need_args(args, 1)
+    #     filename = args[0]
+    #     _, current_node = self.__current_working_directory
+    #     executable = current_node.children.get(filename)
+    #     if not executable:
+    #         return f"koopa: no such executable {executable}"
+    #     if not args[1:]:
+    #         return executable.run(None, self)
+    #     else:
+    #         self.need_args(args, 2)
+    #         return executable.run(args[1], self)
 
     @staticmethod
     def __assist(args) -> str:
@@ -234,7 +244,7 @@ class Filesystem:
 
     @staticmethod
     def validate_file_name(name: str) -> bool:
-        return name not in ['', '.', '..'] and '/' not in name
+        return name not in ['', '.', '..'] and '/' not in name and ' ' not in name
 
     def cwd(self) -> str:
         return self.__current_working_directory[0]
