@@ -5,8 +5,7 @@
       "DISCLAIMER.txt": "WARNING: University given laptop. Students must not use this laptop for recreational purposes. This laptop is the property of the Pembroke History Faculty. ",
       "passwords": {
         "pass_decrypt.txt": "my mother dropped me on the heaad as a child. as a result, i have chronic memory loss. this passwword text filee is for mysself, if yoou're not larry pig of class 2056 get off my commputer before i expose you for acadeemic dishonesty",
-        "enc_findings.txt": "findings123",
-        "enc_prefixperms.txt": "admin"
+        "enc_findings.txt": "findings123"
       },
     "findings14" : {
       "findings14.txt": "rmmber: need to move (command: rlc) this file to the same folder as exec",
@@ -37,20 +36,24 @@
     },
     "field_notes": {
       "untitled.txt": "recently realised that it'll be helpful to future biographers if i keep a more structured journal",
-      "enc_03_03_2056_": "need to finish my email to the professor. i meant to change permissions from _ to _ on my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. ",
-      "enc_05_10__1917": "starting to think the countryside really isn't for me. i spent a lot of time watching cows plod around and soaking in the smell of dung and hay. can't exactly say it wasn't instructive but i sure as hell will be glad to get my own laptop back and stop using this antique brick of a computer. i think i might need to go further back than 1918. came up with lots of good strategies while playing ww simulator that i want to test out. i mean ill be careful, wont change the past or anything like that... ha. ill be sure to hold back my best strategies so we still lose if need be.",
-      "enc__11_04_1916": {
+      "enc_X3_03_2056.txt": "need to finish my email to the professor. i meant to lower permissions on all my email drafts so i dont have to run (insert command) every time but i cant risk snoops reading my communication before its ready. anyway i cant be bothered to change permissions on all but a few.",
+      "enc_11_04_1916.txt": {
         "permission": 1,
         "content": "placeholder"
       },
-      "enc__11_04_1916": {
+      "enc_12_04_1916.txt": {
+        "permission": 1,
+        "content": "placeholder"
+      },
+      "enc_13_04_1916.txt": {
         "permission": 1,
         "content": "placeholder"
       }
     },
+    "enc_05_10_1917.txt": "placeholder- note this file should be put in field notes so the password appears in the file names or sth",
     "email_drafts": {
       "email_prof_ver_1.txt": "Dear Professor,\n\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation. Preparing for time travel isn't something you can wrap in two or three hours but I wouldn't expect ",
-      "email_prof_ver_2.txt": "Dear Professor,\n\nJust following up on my last email to see if you could submit the required health and safety risk assessment form by Tuesday. I've attached the form here and partially filled it out for your convenience.\n\nLooking forward to hearing back soon.",
+      "email_prof_ver_2.txt": "Dear Professor,\n\nJust following up on my last email to see if you could submit the required health and safety risk assessment form by Tuesday. I've attached the form here and partially filled it out for your convenience. Just needs your signature and we're good to go.\n\nLooking forward to hearing back promptly.",
       "email_greataunt.txt": "Dear Great-Aunt Florence,\n\nHow are you? I don't think I'll be at home this Easter, sorry I can't catsit for you again. I can try to look for Great-Uncle Willie but I don't think I'll be able to find him. What battle did you say he fought in again?",
       "email_prof_updated.txt": {
         "permission": 1,
@@ -59,6 +62,7 @@
     }
   },
   "Applications": {
+    "readme.txt": "the assist doesnt tell you how to run things... anyway it's `../<filename>`",
     "DecryptPass.exe": "awesome",
     "Findings14.exe": "findings123",
     "Findings15.exe": "newfindings",
