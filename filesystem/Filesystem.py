@@ -190,6 +190,8 @@ class Filesystem:
         rd [textfile] -- read textfile
         assist please -- help manual
         trv [directory] -- traverse the file system
+            trv . -- traverse to previous directory
+            trv .. -- traverse to current directory
         shwall -- show the contents of the current directory
         """
 
