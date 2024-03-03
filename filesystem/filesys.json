@@ -8,9 +8,15 @@
         "enc_findings.txt": "findings123, rmmber: need to move (rlc) findings0.txt to same folder as exec",
         "enc_prefixperms.txt": "admin"
       },
-    "findings" : {
-      "findings0.txt": "text file to trigger findings for findings.exe",
+    "findings14" : {
+      "findings.txt": "text file to trigger findings for findings.exe",
       "enc_findingresults0.txt": ""
+    },
+    "field notes": {
+      "dd/mm/yyyy": "Need to finish my email to the Professor. I meant to change permissions on my email drafts so I don't have to raise my own authorisation every time "
+    },
+    "email drafts": {
+      "email1.txt": "Dear Professor,\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation."
     }
   },
   "Applications": {
