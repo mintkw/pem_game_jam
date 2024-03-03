@@ -7,7 +7,7 @@ def main():
     HEIGHT = 600
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     pg.display.set_caption('new shell')
-    font = pg.font.Font(pg.font.match_font('sfnsmono'), 17)
+    font = pg.font.Font(pg.font.match_font('sfnsmono'), 15)
     clock = pg.time.Clock()
     color = pg.Color('white')
 

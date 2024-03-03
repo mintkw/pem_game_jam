@@ -5,16 +5,18 @@
       "DISCLAIMER.txt": "WARNING: University given laptop. Students must not use this laptop for recreational purposes. This laptop is the property of the Pembroke History Faculty. ",
       "passwords": {
         "pass_decrypt.txt": "my mother dropped me on the heaad as a child. as a result, i have chronic memory loss. this passwword text filee is for mysself, if yoou're not larry pig of class 2056 get off my commputer before i expose you for acadeemic dishonesty",
-        "enc_findings14.txt": "findings123",
+        "enc_findings.txt": "findings123, rmmber: need to move (rlc) findings0.txt to same folder as exec",
         "enc_prefixperms.txt": "admin"
       },
     "findings14" : {
-      "findings14.txt": "need to move this txt file into Applications b4 running Findings.exe",
-      "enc_findingresults14.txt": "",
-      "enc_personalcomments.txt": "so i'm living in the countryside, because the uni has apparently designated this place a safe zone. which is ridiculous because there's NO ACTION HERE. how am i supposed to destroy Matthew Clark in Quadpos if i cant get the REAL ACTION?????????? i need to talk to the soldiers."
+      "findings.txt": "text file to trigger findings for findings.exe",
+      "enc_findingresults0.txt": ""
     },
-    "findings15" : {
-
+    "field notes": {
+      "dd/mm/yyyy": "Need to finish my email to the Professor. I meant to change permissions on my email drafts so I don't have to raise my own authorisation every time "
+    },
+    "email drafts": {
+      "email1.txt": "Dear Professor,\nHope this email finds you in a better state than me. Sorry for the lack of communication and I promise I'm making progress on the dissertation."
     }
   },
   "Applications": {

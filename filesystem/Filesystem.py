@@ -52,6 +52,12 @@ class Executable:
         match self.name[:-4]:
             case 'Decrypt':
                 fs.locate_file('/Documents/passwords').decrypt_all()
+            case s if s.startswith('Findings'):
+                n = int(s[8:])
+                if f'findings{n}.txt' not in self.parent.children:
+                    return 'Findings: you suck'
+                del self.parent.children[f'findings{n}.txt']
+                fs.locate_file(f'/Documents/findings{n}').decrypt_all()
             case s:
                 raise ValueError(f'Unrecognised executable: {s}')
 
