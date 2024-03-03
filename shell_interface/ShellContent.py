@@ -17,6 +17,9 @@ class Shell:
         self.screen = screen
         self.color = color
         self.filesystem = FilesystemParser().parse_json('filesystem/filesys.json')
+        self.prev_command = ''
+        self.current_command = ''
+        self.prev_selected = False
 
     def add_input_box(self):
         self.input_boxes.append(pg.Rect(0, self.line_height * self.current_line, self.width, self.line_height))
@@ -33,15 +36,20 @@ class Shell:
             self.current_line += 1
             self.text.append('')
 
-    def enter_command(self):
+    def get_command(self):
         command = ''
         for i in range(self.first_active_line, self.current_line + 1):
             command += self.text[i]
+        return command
+
+    def enter_command(self):
+        command = self.get_command()
 
         # freeze the lines that were active
         self.text[self.first_active_line] = self.prompt + self.text[self.first_active_line]
 
         output_text = self.filesystem.call_command(command)
+        self.prev_command = command
         self.prompt = f"(koopa) larrypig@larrypig {self.filesystem.cwd()}/ $ "
 
         self.output_text(output_text)
@@ -64,6 +72,10 @@ class Shell:
         self.text[self.current_line] = self.text[self.current_line][:-1]
 
     def clear_current_command(self):
+        if self.prev_selected:
+            self.prev_command = self.get_command()
+        else:
+            self.current_command = self.get_command()
         for i in range(self.first_active_line, self.current_line + 1):
             self.text[i] = ''
 

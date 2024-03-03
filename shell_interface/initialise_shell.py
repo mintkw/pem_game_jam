@@ -36,6 +36,18 @@ def main():
                 elif event.key == pg.K_u and (event.mod & pg.KMOD_CTRL):
                     shell.clear_current_command()
 
+                elif event.key == pg.K_UP and not shell.prev_selected:
+                    shell.clear_current_command()
+                    shell.prev_selected = True
+                    for ch in shell.prev_command:
+                        shell.enter_character(ch)
+
+                elif event.key == pg.K_DOWN and shell.prev_selected:
+                    shell.clear_current_command()
+                    shell.prev_selected = False
+                    for ch in shell.current_command:
+                        shell.enter_character(ch)
+
                 else:
                     shell.enter_character(event.unicode)
 
