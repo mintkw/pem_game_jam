@@ -18,6 +18,10 @@ class Filesystem:
         self.__current_working_directory = ("/", self.__root)
 
     def call_command(self, command: str) -> (str, str):
+        """
+        :param command:
+        :return: (new working directory, output)
+        """
         (command_type, args) = self.__parse_command(command)
         match command_type:
             case Command.NOCOMMAND:
@@ -25,13 +29,13 @@ class Filesystem:
             case Command.READ:
                 return self.__cwd(), self.__read(args)
             case Command.ASSIST:
-                return self.__assist(args)
+                return self.__cwd(), self.__assist(args)
             case Command.TRAVERSE:
-                return self.__traverse(args)
+                return self.__cwd(), self.__traverse(args)
             case Command.RELOCATE:
-                return self.__relocate(args)
+                return self.__cwd(), self.__relocate(args)
             case Command.SUDO:
-                return self.__sudo(args)
+                return self.__cwd(), self.__sudo(args)
 
     def __parse_command(self, command: str) -> Tuple[Command, List[str]]:
         cmds = command.split()
@@ -50,7 +54,16 @@ class Filesystem:
         return current_node.children[filename].contents
 
     def __assist(self, args) -> str:
-        pass
+        """ :param args: args[0] 'please'"""
+        if not ("please" in args[0].lower()):
+            return "koopa: say pretty please!"
+        return """
+        rd [textfile] -- read textfile
+        assist please -- help manual
+        trv [directory] -- traverse the file system
+        rlc [filename] [new_directory] -- move file to new directory
+        god [cmd] -- run a command in god mode
+        """
 
     def __traverse(self, args) -> str:
         pass
@@ -58,7 +71,7 @@ class Filesystem:
     def __relocate(self, args) -> str:
         pass
 
-    def __sudo(self, args) -> str:
+    def __god(self, args) -> str:
         pass
 
     @staticmethod
