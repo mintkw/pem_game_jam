@@ -93,6 +93,8 @@ class Filesystem:
         :param command:
         :return: (new working directory, output)
         """
+        if command == '':
+            return ''
         if command.startswith('./') or command.startswith('../'):
             args = command[1+command.index('/'):].split()
             executable = self.locate_file(args[0])
@@ -173,7 +175,7 @@ class Filesystem:
     @staticmethod
     def __assist(args) -> str:
         """ :param args: args[0] 'please'"""
-        if not ("please" in args[0].lower()):
+        if len(args) == 0 or "please" not in args[0].lower():
             return "koopa: say pretty please!"
         return """
         rd [textfile] -- read textfile
