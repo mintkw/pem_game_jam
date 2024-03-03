@@ -58,7 +58,7 @@ class Executable:
                 if f'findings{n}.txt' not in self.parent.children:
                     return 'Missing required dependency. Try moving the dependency to this file.'
                 del self.parent.children[f'findings{n}.txt']
-                fs.locate_file(f'/Documents/findings{n}').decrypt_all()
+                fs.locate_file(f'/Documents/findings{n}').decrypt_all(fs.get_key())
                 return 'Success'
             case s:
                 raise ValueError(f'Unrecognised executable: {s}')
