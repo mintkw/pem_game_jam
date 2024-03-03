@@ -1,5 +1,6 @@
 from typing import *
 from filesystem.Command import Command
+from cryptography.fernet import Fernet
 
 
 class Node:
@@ -9,6 +10,16 @@ class Node:
         self.name = name
         self.parent = parent
         self.children = children
+
+    def decrypt_all(self, key: bytes):
+        cipher_suite = Fernet(key)
+        for child_name, child in list(self.children.items()):
+            if isinstance(child, Node):
+                child.decrypt_all(key)
+            elif isinstance(child, TextFile) and child_name.startswith('enc_'):
+                new_child = TextFile(child_name[4:], self, cipher_suite.decrypt(child.contents.encode()).decode())
+                del self.children[child_name]
+                self.children[new_child.name] = new_child
 
 
 class TextFile:
@@ -49,12 +60,14 @@ File = Node | TextFile | Executable
 
 
 class Filesystem:
+    __key: bytes
     __root: Node
     __current_working_directory: (str, Node)
 
-    def __init__(self, root_children: Callable[[Node], Dict[str, File]]):
+    def __init__(self, root_children: Callable[[Node, bytes], Dict[str, File]]):
+        self.__key = Fernet.generate_key()
         self.__root = Node('', None, {})
-        self.__root.children = root_children(self.__root)
+        self.__root.children = root_children(self.__root, self.__key)
         self.__current_working_directory = ("", self.__root)
 
     def call_command(self, command: str) -> str:
@@ -80,6 +93,9 @@ class Filesystem:
         except RequiresMoreArgs as e:
             return e.args[0]
 
+
+    def decrypt_all(self):
+        self.__root.decrypt_all(self.__key)
 
     @staticmethod
     def __parse_command(command: str) -> Tuple[Command, List[str]]:
