@@ -70,6 +70,9 @@ class Filesystem:
         self.__root.children = root_children(self.__root, self.__key)
         self.__current_working_directory = ("", self.__root)
 
+    def get_key(self):
+        return self.__key
+
     def call_command(self, command: str) -> str:
         """
         :param command:
