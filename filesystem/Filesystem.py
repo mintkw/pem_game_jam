@@ -93,6 +93,17 @@ class Filesystem:
         :param command:
         :return: (new working directory, output)
         """
+        if command.startswith('./') or command.startswith('../'):
+            args = command[1+command.index('/'):].split()
+            executable = self.locate_file(args[0])
+            if executable is None:
+                return 'koopa: file not found.'
+            if not isinstance(executable, Executable):
+                return f'koopa: file is not executable: {executable.name}.'
+            if len(args) not in [1, 2]:
+                return f'{executable.name}: too many arguments.'
+            password = args[1] if len(args) == 2 else None
+            return executable.run(password, self)
         (command_type, args) = self.__parse_command(command)
         try:
             match command_type:
