@@ -3,14 +3,23 @@ from filesystem.Command import Command
 
 
 class Node:
-    def __init__(self, name, parent, children):
+    name: str
+
+    def __init__(self, name: str, parent, children):
         self.name = name
         self.parent = parent
         self.children = children
 
 
 class TextFile:
+    name: str
+    parent: Node
     contents: str
+
+    def __init__(self, name: str, parent: Node, contents: str):
+        self.name = name
+        self.parent = parent
+        self.contents = contents
 
 
 File = Node | TextFile
@@ -20,8 +29,9 @@ class Filesystem:
     __root: Node
     __current_working_directory: (str, Node)
 
-    def __init__(self):
+    def __init__(self, root_children: Callable[[Node], Dict[str, File]]):
         self.__root = Node('', None, {})
+        self.__root.children = root_children(self.__root)
         self.__current_working_directory = ("", self.__root)
 
     def call_command(self, command: str) -> str:
@@ -44,14 +54,16 @@ class Filesystem:
             case Command.SUDO:
                 return self.__sudo(args)
 
-    def __parse_command(self, command: str) -> Tuple[Command, List[str]]:
+    @staticmethod
+    def __parse_command(command: str) -> Tuple[Command, List[str]]:
         cmds = command.split()
         try:
             return Command(cmds[0]), cmds[1:]
         except:
             return Command.NOCOMMAND, cmds[1:]
 
-    def __no_command(self, command_in) -> str:
+    @staticmethod
+    def __no_command(command_in) -> str:
         return f"koopa: command not found: {command_in}"
 
     @staticmethod
@@ -65,7 +77,8 @@ class Filesystem:
         _, current_node = self.__current_working_directory
         return current_node.children[filename].contents
 
-    def __assist(self, args) -> str:
+    @staticmethod
+    def __assist(args) -> str:
         """ :param args: args[0] 'please'"""
         if not ("please" in args[0].lower()):
             return "koopa: say pretty please!"
@@ -109,7 +122,8 @@ class Filesystem:
         dst.children[src.name] = src
         return 'Success'
 
-    def __sudo(self, args) -> str:
+    @staticmethod
+    def __sudo(_args) -> str:
         return 'Denied (error code: MERE_MORTAL)'
 
     @staticmethod
