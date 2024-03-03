@@ -17,7 +17,8 @@ class Node:
             if isinstance(child, Node):
                 child.decrypt_all(key)
             elif isinstance(child, TextFile) and child_name.startswith('enc_'):
-                new_child = TextFile(child_name[4:], self, cipher_suite.decrypt(child.contents.encode()).decode())
+                new_child = TextFile(child_name[4:], self, cipher_suite.decrypt(child.contents.encode()).decode(),
+                                     child.permission_level)
                 del self.children[child_name]
                 self.children[new_child.name] = new_child
 
@@ -26,30 +27,39 @@ class TextFile:
     name: str
     parent: Node
     contents: str
+    permission_level: int
 
-    def __init__(self, name: str, parent: Node, contents: str):
+    def __init__(self, name: str, parent: Node, contents: str, permission_level: int):
         self.name = name
         self.parent = parent
         self.contents = contents
+        self.permission_level = permission_level
 
 
 class Executable:
     name: str
     parent: Node
     password: Optional[str]
-    func: Callable[[Node], str]
 
-    def __init__(self, name: str, parent: Node, password: Optional[str], func: Callable[[Node], str]):
+    def __init__(self, name: str, parent: Node, password: Optional[str]):
         self.name = name
         self.parent = parent
         self.password = password
-        self.func = func
 
-    def run(self, password: Optional[str], root: Node) -> str:
-        if self.password:
-            if self.password != password:
-                return f"Permission denied. Try running this file as ../{self.name} [password]"
-        return self.func(root)
+    def run(self, password: Optional[str], fs) -> str:
+        if self.password is not None and self.password != password:
+            return f"Permission denied. Try running this file as ../{self.name} [password]"
+        match self.name[:-4]:
+            case 'Decrypt':
+                fs.locate_file('/Documents/passwords').decrypt_all()
+            case s if s.startswith('Findings'):
+                n = int(s[8:])
+                if f'findings{n}.txt' not in self.parent.children:
+                    return 'Findings: you suck'
+                del self.parent.children[f'findings{n}.txt']
+                fs.locate_file(f'/Documents/findings{n}').decrypt_all()
+            case s:
+                raise ValueError(f'Unrecognised executable: {s}')
 
 
 class RequiresMoreArgs(Exception):
@@ -63,15 +73,20 @@ class Filesystem:
     __key: bytes
     __root: Node
     __current_working_directory: (str, Node)
+    __perms: int
 
     def __init__(self, root_children: Callable[[Node, bytes], Dict[str, File]]):
         self.__key = Fernet.generate_key()
         self.__root = Node('', None, {})
         self.__root.children = root_children(self.__root, self.__key)
         self.__current_working_directory = ("", self.__root)
+        self.__perms = 0
 
     def get_key(self):
         return self.__key
+
+    def grant_perms(self, perms: int):
+        self.__perms = max(perms, self.__perms)
 
     def call_command(self, command: str) -> str:
         """
@@ -96,7 +111,6 @@ class Filesystem:
         except RequiresMoreArgs as e:
             return e.args[0]
 
-
     def decrypt_all(self):
         self.__root.decrypt_all(self.__key)
 
@@ -110,7 +124,7 @@ class Filesystem:
 
     @staticmethod
     def __no_command(command_in) -> str:
-        return f"koopa: command not found: {command_in}. Try running `assist please`."
+        return f"koopa: command not found: {command_in}. Try running `assist`."
 
     @staticmethod
     def need_args(args, n):
@@ -121,10 +135,13 @@ class Filesystem:
         """ :param args: args[0] filename.txt """
         self.need_args(args, 1)
         filename = args[0]
-        _, current_node = self.__current_working_directory
-        file = current_node.children.get(filename)
+        file = self.locate_file(filename)
         if not file:
             return f"koopa: no such filename {filename}."
+        if not isinstance(file, TextFile):
+            return f"koopa: not a text file."
+        if self.__perms < file.permission_level:
+            return f"koopa: permission denied."
         return file.contents
 
     def __run(self, args) -> str:
@@ -141,7 +158,6 @@ class Filesystem:
         else:
             self.need_args(args, 2)
             return executable.run(args[1], self.__root)
-
 
     @staticmethod
     def __assist(args) -> str:
