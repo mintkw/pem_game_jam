@@ -1,4 +1,5 @@
 import pygame as pg
+from filesystem.FilesystemParser import FilesystemParser
 
 
 class Shell:
@@ -15,6 +16,7 @@ class Shell:
         self.input_boxes = [pg.Rect(0, 0, width, self.line_height)]  # going to draw one rect per line.
         self.screen = screen
         self.color = color
+        self.filesystem = FilesystemParser().parse_json('filesystem/filesys.json')
 
     def add_input_box(self):
         self.input_boxes.append(pg.Rect(0, self.line_height * self.current_line, self.width, self.line_height))
@@ -22,8 +24,8 @@ class Shell:
     def start_new_line(self):
         # Shifts every line so the latest line is always at the bottom of the window.
         if self.current_line >= self.max_lines - 1:
-            for i in range(self.max_lines-1):
-                self.text[i] = self.text[i+1]
+            for i in range(self.max_lines - 1):
+                self.text[i] = self.text[i + 1]
             self.text[-1] = ''
             self.first_active_line -= 1
 
@@ -31,13 +33,16 @@ class Shell:
             self.current_line += 1
             self.text.append('')
 
-
     def enter_command(self):
+        command = ''
+        for i in range(self.first_active_line, self.current_line + 1):
+            command += self.text[i]
+
         # freeze the lines that were active
         self.text[self.first_active_line] = self.prompt + self.text[self.first_active_line]
 
-        # placeholder- run command and get some output back
-        output_text = "command not found command not found command not found command not found command not found\nenter something else"
+        output_text = self.filesystem.call_command(command)
+        self.prompt = f"(koopa) larrypig@larrypig {self.filesystem.cwd()}/ $ "
 
         self.output_text(output_text)
 
@@ -87,14 +92,14 @@ class Shell:
         for line in range(self.first_active_line):
             txt_surfaces.append(self.font.render(self.text[line], True, self.color))
         txt_surfaces.append(self.font.render(self.prompt + self.text[self.first_active_line], True, self.color))
-        for line in range(self.first_active_line+1, self.current_line+1):
+        for line in range(self.first_active_line + 1, self.current_line + 1):
             txt_surfaces.append(self.font.render(self.text[line], True, self.color))
 
         # Blit the text.
         for i in range(len(txt_surfaces)):
             surface = txt_surfaces[i]
             input_box = self.input_boxes[i]
-            self.screen.blit(surface, (input_box.x+5, input_box.y+5))
+            self.screen.blit(surface, (input_box.x + 5, input_box.y + 5))
 
     def split_on_newline_and_wrap(self, text) -> list[str]:
         """
